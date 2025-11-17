@@ -138,7 +138,7 @@ def home():
     .cell:hover { transform: scale(1.035); }
     .cell.disabled { cursor:not-allowed; filter: grayscale(30%); }
     .piece { width:70%; height:70%; border-radius:50%; box-shadow:0 1px 4px rgba(0,0,0,.25) inset; }
-    .townhall { background: {{ state.townhall_color }}; border-radius:8px; display:flex; align-items:center; justify-content:center; color:white; font-weight:700; grid-row: span 2; grid-column: span 2; align-self: stretch; justify-self: stretch; font-size: clamp(1.2rem, 2.2vw, 1.6rem); line-height: 1.1; text-align: center; z-index: 2; cursor:not-allowed; }
+    .townhall { background: {{ state.townhall_color }}; border-radius:8px; display:flex; align-items:center; justify-content:center; color:white; font-weight:700; grid-row: span 2; grid-column: span 2; align-self: stretch; justify-self: stretch; font-size: clamp(1.2rem, 2.2vw, 1.6rem); line-height: 1.1; text-align: center; position: relative; z-index: 2; cursor:not-allowed; }
     .buttons { display:flex; gap:8px; }
     button { padding:6px 10px; border-radius:8px; border:1px solid #ddd; background:white; cursor:pointer;}
     .winner { font-weight:700; }
@@ -218,6 +218,8 @@ def home():
         th.style.background = state.townhall_color;
         th.style.gridRowStart = TH_R + 1;
         th.style.gridColumnStart = TH_C + 1;
+        th.style.gridRow = "span 2";
+        th.style.gridColumn = "span 2";
         grid.appendChild(th);
 
         // render pieces
