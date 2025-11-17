@@ -10,7 +10,7 @@ STATE_FILE = Path("events.json")
 ROWS = 8
 COLS = 10
 TOWNHALL_COLOR_DEFAULT = "#8e44ad"  # purple
-PLAYER_1 = {"id": 1, "name": "Artist", "color": "#2ecc71"}
+PLAYER_1 = {"id": 1, "name": "Artist", "color": "#e74c3c"}
 PLAYER_2 = {"id": 2, "name": "Business Owner", "color": "#3498db"}
 
 # Compute the 2x2 center block (top-left anchor) for Town Hall
@@ -133,12 +133,12 @@ def home():
     .player-name { font-weight:600; }
     .player-score { color:#555; }
     .board-shell { display:flex; flex-direction:column; gap:10px; align-items:center; }
-    .grid { display:grid; grid-gap: var(--gap); grid-template-columns: repeat({{ state.board_cols }}, var(--cell)); width:fit-content; background:#ddd; padding:var(--gap); border-radius:12px; }
+    .grid {   display: grid; grid-gap: var(--gap); grid-template-columns: repeat({{ state.board_cols }}, var(--cell)); grid-auto-rows: var(--cell); width: fit-content; background: #ddd; padding: var(--gap); border-radius: 12px; }
     .cell { width:var(--cell); height:var(--cell); background:white; border-radius:8px; display:flex; align-items:center; justify-content:center; cursor:pointer; user-select:none; transition: transform .05s ease; }
     .cell:hover { transform: scale(1.035); }
     .cell.disabled { cursor:not-allowed; filter: grayscale(30%); }
     .piece { width:70%; height:70%; border-radius:50%; box-shadow:0 1px 4px rgba(0,0,0,.25) inset; }
-    .townhall { background: {{ state.townhall_color }}; border-radius:10px; display:flex; align-items:center; justify-content:center; color:white; font-weight:700; grid-row: span 2; grid-column: span 2; cursor:not-allowed; }
+    .townhall { background: {{ state.townhall_color }}; border-radius:8px; display:flex; align-items:center; justify-content:center; color:white; font-weight:700; grid-row: span 2; grid-column: span 2; align-self: stretch; justify-self: stretch; font-size: clamp(1.2rem, 2.2vw, 1.6rem); line-height: 1.1; text-align: center; z-index: 2; cursor:not-allowed; }
     .buttons { display:flex; gap:8px; }
     button { padding:6px 10px; border-radius:8px; border:1px solid #ddd; background:white; cursor:pointer;}
     .winner { font-weight:700; }
@@ -189,68 +189,54 @@ def home():
       leftEl.innerHTML = `
         <div class="player-dot" style="background:${p1.color}"></div>
         <div class="player-name">${p1.name}</div>
-        <div class="player-score">Score: ${p1.score}</div>`;
+        <div class="player-score">Tiles Owned: ${p1.score}</div>`;
       rightEl.innerHTML = `
         <div class="player-dot" style="background:${p2.color}"></div>
         <div class="player-name">${p2.name}</div>
-        <div class="player-score">Score: ${p2.score}</div>`;
+        <div class="player-score">Tiles Owned: ${p2.score}</div>`;
     }
 
     function drawBoard() {
-      grid.innerHTML = "";
-      for (let r = 0; r < ROWS; r++) {
-        for (let c = 0; c < COLS; c++) {
-          if (r === TH_R && c === TH_C) {
-            const th = document.createElement("div");
-            th.className = "townhall";
-            th.textContent = "Town Hall";
-            th.style.background = state.townhall_color;
-            th.style.gridRowStart = r + 1;
-            th.style.gridColumnStart = c + 1;
-            grid.appendChild(th);
-            continue;
-          }
-          if ((r === TH_R && c === TH_C + 1) ||
-              (r === TH_R + 1 && c === TH_C) ||
-              (r === TH_R + 1 && c === TH_C + 1)) {
-            continue;
-          }
-          const div = document.createElement("div");
-          div.className = "cell";
-          div.id = cellId(r,c);
-          div.onclick = () => place(r, c);
-          if (state.game_over) div.classList.add("disabled");
-          grid.appendChild(div);
-        }
-      }
-      for (const p of state.pieces) {
-        const cell = document.getElementById(cellId(p.row, p.col));
-        if (!cell) continue;
-        const piece = document.createElement("div");
-        const player = state.players.find(pl => pl.id === p.player);
-        piece.className = "piece";
-        piece.style.background = player.color;
-        piece.title = player.name;
-        cell.appendChild(piece);
-      }
-      const current = state.players.find(pl => pl.id === state.turn);
-      turnEl.textContent = `${current.name}`;
-      turnEl.style.color = current.color;
+        grid.innerHTML = "";
 
-      if (state.game_over) {
-        if (state.winner === "tie") {
-          statusEl.innerHTML = `<span class="winner">It's a tie.</span>`;
-        } else {
-          const w = state.players.find(pl => pl.id === state.winner);
-          statusEl.innerHTML = `<span class="winner">${w.name} wins Town Hall!</span>`;
+        // build every normal cell
+        for (let r = 0; r < ROWS; r++) {
+            for (let c = 0; c < COLS; c++) {
+            const div = document.createElement("div");
+            div.className = "cell";
+            div.id = cellId(r, c);
+            div.onclick = () => place(r, c);
+            if (state.game_over) div.classList.add("disabled");
+            grid.appendChild(div);
+            }
         }
-      } else if (state.bonus_available && state.bonus_player === state.turn) {
-        statusEl.textContent = "Bonus move available!";
-      } else {
-        statusEl.textContent = "";
-      }
-      renderSidebars();
-    }
+
+        // overlay Town Hall spanning 2×2
+        const th = document.createElement("div");
+        th.className = "townhall";
+        th.textContent = "Town Hall";
+        th.style.background = state.townhall_color;
+        th.style.gridRowStart = TH_R + 1;
+        th.style.gridColumnStart = TH_C + 1;
+        grid.appendChild(th);
+
+        // render pieces
+        for (const p of state.pieces) {
+            const cell = document.getElementById(cellId(p.row, p.col));
+            if (!cell) continue;
+            const piece = document.createElement("div");
+            const player = state.players.find(pl => pl.id === p.player);
+            piece.className = "piece";
+            piece.style.background = player.color;
+            piece.title = player.name;
+            cell.appendChild(piece);
+        }
+
+        const current = state.players.find(pl => pl.id === state.turn);
+        turnEl.textContent = `${current.name}`;
+        turnEl.style.color = current.color;
+        renderSidebars(); // if you have this
+        }
 
     async function fetchState() {
       const res = await fetch("/state");

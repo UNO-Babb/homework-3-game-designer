@@ -1,0 +1,33 @@
+{
+  "game_name": "Fight for Town Hall",
+  "setup_text": "",
+  "board_rows": 8,
+  "board_cols": 10,
+  "players": [
+    {
+      "id": 1,
+      "name": "Artist",
+      "color": "#e74c3c",
+      "score": 1
+    },
+    {
+      "id": 2,
+      "name": "Business Owner",
+      "color": "#3498db",
+      "score": 0
+    }
+  ],
+  "turn": 2,
+  "pieces": [
+    {
+      "row": 1,
+      "col": 3,
+      "player": 1
+    }
+  ],
+  "bonus_available": false,
+  "bonus_player": null,
+  "game_over": false,
+  "winner": null,
+  "townhall_color": "#8e44ad"
+}
