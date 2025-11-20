@@ -1,0 +1,6 @@
+Event File for "Fight for Town Hall"
+
+Turn: Business Owner or Artist
+BO_Tiles: 1, 4, 5, 8, 12, 14, 17, 21, 22, 23, 24, 25
+A_Tiles: 2, 3, 7, 13, 30, 31, 32, 35, 39
+Bonus_Turn: Yes or No

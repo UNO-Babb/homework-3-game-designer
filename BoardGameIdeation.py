@@ -21,7 +21,7 @@ TOWNHALL_CELLS = {(CENTER_R, CENTER_C), (CENTER_R, CENTER_C + 1),
 
 DEFAULT_STATE = {
     "game_name": "Fight for Town Hall",
-    "setup_text": "",  # under-title story/setup (fill this string if you want text shown)
+    "setup_text": "Fight for Town Hall is a strategy-based city takeover game where two opposing forces — an Artist and a Business Owner — compete to shape the future of their community. The Artist seeks to beautify the city with vibrant art installations, while the Business Owner aims to expand his influence through advertising. The game board represents the city, divided into a grid of clickable spaces. Players take turns claiming empty squares, with the Artist’s tiles turning red and the Business Owner’s tiles turning blue. The central purple Town Hall cannot be claimed during play, but once the board is full, it changes to the color of whichever player controls the most spaces, symbolizing their dominance over the city. If both players claim the same number of spaces, Town Hall remains purple, signifying a stalemate. To add a twist of strategy, any player who achieves five tiles in a row—horizontally, vertically, or diagonally—earns one bonus move that round, giving them an extra chance to tip the balance in their favor.",  # under-title story/setup (fill this string if you want text shown)
     "board_rows": ROWS,
     "board_cols": COLS,
     "players": [

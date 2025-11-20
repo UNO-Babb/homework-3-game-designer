@@ -1,6 +1,6 @@
 {
   "game_name": "Fight for Town Hall",
-  "setup_text": "",
+  "setup_text": "Fight for Town Hall is a strategy-based city takeover game where two opposing forces \u2014 an Artist and a Business Owner \u2014 compete to shape the future of their community. The Artist seeks to beautify the city with vibrant art installations, while the Business Owner aims to expand his influence through advertising. The game board represents the city, divided into a grid of clickable spaces. Players take turns claiming empty squares, with the Artist\u2019s tiles turning red and the Business Owner\u2019s tiles turning blue. The central purple Town Hall cannot be claimed during play, but once the board is full, it changes to the color of whichever player controls the most spaces, symbolizing their dominance over the city. If both players claim the same number of spaces, Town Hall remains purple, signifying a stalemate. To add a twist of strategy, any player who achieves five tiles in a row\u2014horizontally, vertically, or diagonally\u2014earns one bonus move that round, giving them an extra chance to tip the balance in their favor.",
   "board_rows": 8,
   "board_cols": 10,
   "players": [
